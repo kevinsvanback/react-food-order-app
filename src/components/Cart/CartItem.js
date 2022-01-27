@@ -1,15 +1,15 @@
 import styles from './CartItem.module.css';
 
 const CartItem = (props) => {
-  const price = `$${props.price}`;
+  const price = `$${props.price.toFixed(2)}`;
 
   return (
-    <li>
+    <li className={styles['cart-item']}>
       <div>
         <h2>{props.name}</h2>
         <div className={styles.summary}>
           <span className={styles.price}>{price}</span>
-          <span className={styles.amount}>{props.amount}</span>
+          <span className={styles.amount}>x{props.amount}</span>
         </div>
       </div>
       <div className={styles.actions}>
