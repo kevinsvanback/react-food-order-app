@@ -1,10 +1,12 @@
+import Modal from '../UI/Modal';
+
 import styles from './Cart.module.css';
 
 const Cart = () => {
   const cartItem = [{ id: 'c1', name: 'Sushi', amount: 3, price: 14.49 }].map(item => <li>{item.name}</li>);
 
   return (
-    <div>
+    <Modal>
       <ul className={styles['cart-items']}>
         {cartItem}
       </ul>
@@ -16,7 +18,7 @@ const Cart = () => {
         <button className={styles['button--alt']}>Close</button>
         <button className={styles.button}>Order</button>
       </div>
-    </div>
+    </Modal>
   );
 };
 
