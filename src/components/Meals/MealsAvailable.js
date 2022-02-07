@@ -3,6 +3,15 @@ import MealItem from './MealItem/MealItem';
 
 import styles from './MealsAvailable.module.css';
 
+const fetchMeals = async () => {
+  const res = await fetch('https://mydummydb-3fbe5-default-rtdb.europe-west1.firebasedatabase.app/meals.json');
+  const data = await res.json();
+
+  console.log(data);
+};
+
+fetchMeals();
+
 const DUMMY_MEALS = [
   {
     id: 'm1',
