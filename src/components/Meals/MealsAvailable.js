@@ -6,6 +6,7 @@ import styles from './MealsAvailable.module.css';
 
 const MealsAvailable = () => {
   const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -26,16 +27,18 @@ const MealsAvailable = () => {
       }
 
       setMeals(loadedMeals);
+      setIsLoading(false);
     };
     fetchMeals();
   }, []);
 
   const mealsList = meals.map(meal => <MealItem key={meal.id} id={meal.id} name={meal.name} description={meal.description} price={meal.price} />);
+  const content = isLoading ? <p>Loading meals...</p> : <ul>{mealsList}</ul>;
 
   return (
     <section className={styles.meals}>
       <Card>
-        <ul>{mealsList}</ul>
+        {content}
       </Card>
     </section>
   );
