@@ -25,6 +25,16 @@ const Cart = (props) => {
     setIsOrdering(true);
   };
 
+  const submitOrderHandler = (userFormData) => {
+    fetch('https://mydummydb-3fbe5-default-rtdb.europe-west1.firebasedatabase.app/orders.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: userFormData,
+        orderedItems: cartCtx.items
+      })
+    });
+  };
+
   const cartItem = cartCtx.items.map(item => <CartItem key={item.id} name={item.name} amount={item.amount} price={item.price} onRemove={cartItemRemoveHandler.bind(null, item.id)} onAdd={cartItemAddHandler.bind(null, item)} />);
   const cartBtns = <div className={styles.actions}>
     <button className={styles['button--alt']} onClick={props.onHideCart}>Close</button>
@@ -40,7 +50,7 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isOrdering && <Checkout />}
+      {isOrdering && <Checkout onSubmit={submitOrderHandler} onHideCart={props.onHideCart} />}
       {!isOrdering && cartBtns}
     </Modal>
   );
