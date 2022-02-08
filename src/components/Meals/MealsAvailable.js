@@ -19,8 +19,6 @@ const MealsAvailable = () => {
           throw new Error('Something went wrong!');
         }
 
-        console.log(data);
-
         const loadedMeals = [];
 
         for (const key in data) {
