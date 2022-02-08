@@ -7,27 +7,38 @@ import styles from './MealsAvailable.module.css';
 const MealsAvailable = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
 
   useEffect(() => {
     const fetchMeals = async () => {
-      const res = await fetch('https://mydummydb-3fbe5-default-rtdb.europe-west1.firebasedatabase.app/meals.json');
-      const data = await res.json();
+      try {
+        const res = await fetch('https://mydummydb-3fbe5-default-rtdb.europe-west1.firebasedatabase.app/meals.json');
+        const data = await res.json();
 
-      console.log(data);
+        if (!res.ok) {
+          throw new Error('Something went wrong!');
+        }
 
-      const loadedMeals = [];
+        console.log(data);
 
-      for (const key in data) {
-        loadedMeals.push({
-          id: key,
-          name: data[key].name,
-          description: data[key].description,
-          price: data[key].price
-        });
+        const loadedMeals = [];
+
+        for (const key in data) {
+          loadedMeals.push({
+            id: key,
+            name: data[key].name,
+            description: data[key].description,
+            price: data[key].price
+          });
+        }
+
+        setMeals(loadedMeals);
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
+        console.log(err);
+        setError(err.message);
       }
-
-      setMeals(loadedMeals);
-      setIsLoading(false);
     };
     fetchMeals();
   }, []);
@@ -38,7 +49,7 @@ const MealsAvailable = () => {
   return (
     <section className={styles.meals}>
       <Card>
-        {content}
+        {error ? error : content}
       </Card>
     </section>
   );
