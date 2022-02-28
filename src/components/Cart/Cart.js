@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../store/cart-slice';
 import Modal from '../UI/Modal';
 import styles from './Cart.module.css';
-// import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
 import Checkout from './Checkout';
 
@@ -16,19 +15,15 @@ const Cart = (props) => {
 
   const dispatch = useDispatch();
 
-  // const cartCtx = useContext(CartContext);
-
   const totalAmount = `$${cartTotalAmount.toFixed(2)}`;
   const hasItems = cartItems.length > 0;
 
   const cartItemRemoveHandler = (id) => {
     dispatch(cartActions.removeItemFromCart(id));
-    // cartCtx.removeItem(id);
   };
 
   const cartItemAddHandler = (item) => {
     dispatch(cartActions.addItemToCart({ ...item, amount: 1 }));
-    // cartCtx.addItem({ ...item, amount: 1 });
   };
 
   const orderBtnHandler = () => {
@@ -47,7 +42,6 @@ const Cart = (props) => {
     });
     setIsSubmitting(false);
     setIsSubmitted(true);
-    // cartCtx.clearCart();
     dispatch(cartActions.clearCart);
   };
 
