@@ -1,8 +1,9 @@
-import { useContext, useState } from 'react';
-
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions } from '../../store/cart-slice';
 import Modal from '../UI/Modal';
 import styles from './Cart.module.css';
-import CartContext from '../../store/cart-context';
+// import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
 import Checkout from './Checkout';
 
@@ -10,17 +11,24 @@ const Cart = (props) => {
   const [isOrdering, setIsOrdering] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const cartCtx = useContext(CartContext);
+  const cartItems = useSelector(state => state.cart.items);
+  const cartTotalAmount = useSelector(state => state.cart.totalAmount);
 
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
-  const hasItems = cartCtx.items.length > 0;
+  const dispatch = useDispatch();
+
+  // const cartCtx = useContext(CartContext);
+
+  const totalAmount = `$${cartTotalAmount.toFixed(2)}`;
+  const hasItems = cartItems.length > 0;
 
   const cartItemRemoveHandler = (id) => {
-    cartCtx.removeItem(id);
+    dispatch(cartActions.removeItemFromCart(id));
+    // cartCtx.removeItem(id);
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
+    dispatch(cartActions.addItemToCart({ ...item, amount: 1 }));
+    // cartCtx.addItem({ ...item, amount: 1 });
   };
 
   const orderBtnHandler = () => {
@@ -34,15 +42,16 @@ const Cart = (props) => {
       method: 'POST',
       body: JSON.stringify({
         user: userFormData,
-        orderedItems: cartCtx.items
+        orderedItems: cartItems
       })
     });
     setIsSubmitting(false);
     setIsSubmitted(true);
-    cartCtx.clearCart();
+    // cartCtx.clearCart();
+    dispatch(cartActions.clearCart);
   };
 
-  const cartItem = cartCtx.items.map(item => <CartItem key={item.id} name={item.name} amount={item.amount} price={item.price} onRemove={cartItemRemoveHandler.bind(null, item.id)} onAdd={cartItemAddHandler.bind(null, item)} />);
+  const cartItem = cartItems.map(item => <CartItem key={item.id} name={item.name} amount={item.amount} price={item.price} onRemove={cartItemRemoveHandler.bind(null, item.id)} onAdd={cartItemAddHandler.bind(null, item)} />);
 
   const cartBtns = (
     <div className={styles.actions}>
