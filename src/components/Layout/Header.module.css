@@ -6,6 +6,7 @@
   height: 5rem;
   background-color: #90AFC5;
   color: white;
+  text-shadow: 0 0 1px #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
