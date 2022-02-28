@@ -42,7 +42,7 @@ const Cart = (props) => {
     });
     setIsSubmitting(false);
     setIsSubmitted(true);
-    dispatch(cartActions.clearCart);
+    dispatch(cartActions.clearCart());
   };
 
   const cartItem = cartItems.map(item => <CartItem key={item.id} name={item.name} amount={item.amount} price={item.price} onRemove={cartItemRemoveHandler.bind(null, item.id)} onAdd={cartItemAddHandler.bind(null, item)} />);

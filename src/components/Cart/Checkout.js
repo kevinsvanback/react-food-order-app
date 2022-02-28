@@ -1,11 +1,14 @@
 import { useRef, useState } from 'react';
-
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store/cart-slice';
 import styles from './Checkout.module.css';
 
 const isEmpty = (value) => value.trim() === '';
 const isFiveChars = (value) => value.trim().length === 5;
 
 const Checkout = (props) => {
+  const dispatch = useDispatch();
+
   const [formInputValidity, setFormInputValidity] = useState({
     name: true,
     street: true,
@@ -50,6 +53,8 @@ const Checkout = (props) => {
       city: enteredCity,
       postalCode: enteredPostalCode
     });
+
+    dispatch(cartActions.clearCart);
   };
 
   return (
