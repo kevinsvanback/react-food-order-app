@@ -1,4 +1,4 @@
-React Food Order App
+A food order app build with React
 
 Live demo: https://kevinsvanback-react-food-order-app.netlify.app/
 
